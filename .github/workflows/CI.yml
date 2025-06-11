@@ -33,7 +33,9 @@ jobs:
 
       # Step 3: Build the Java backend
       - name: Build Java Backend
-        run: ./server/gradlew build
+        run: |
+          cd server
+          ./gradlew build
 
       # Step 4: Set up Python environment for AI module
       - name: Set up Python 3.10
