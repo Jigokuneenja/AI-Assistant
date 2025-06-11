@@ -28,8 +28,7 @@ jobs:
 
       # Step 2.5: Make Gradle executable
       - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-        working-directory: server
+        run: chmod +x server/gradlew
         
 
       # Step 3: Build the Java backend
