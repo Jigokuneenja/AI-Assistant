@@ -1,8 +1,8 @@
-#AI Assistant Project
+AI Assistant Project
 
 A cross-platform personal assistant built with Java, Python, and Svelte/Vue.js. Supports NLP, voice commands, reminders, and a sleek desktop UI via Tauri.
 
-##Tech Stack
+Tech Stack
 - **Java**: Core logic, local SQLite storage
 - **Python**: NLP (spaCy/OpenAI), voice (TTS/STT), MongoDB memory
 - **Svelte/Vue**: User interface
@@ -10,7 +10,7 @@ A cross-platform personal assistant built with Java, Python, and Svelte/Vue.js. 
 - **MongoDB**: AI memory / chat history
 - **Tauri**: Desktop packaging
 
-##Run Locally
+Run Locally
 ```bash
 # Backend (Java)
 cd server
@@ -25,13 +25,13 @@ cd client
 npm run dev
 ```
 
-##Build Desktop App
+Build Desktop App
 ```bash
 cd client
 tauri build
 ```
 
-##Screenshots
+Screenshots
 > Add demo screenshots or GIFs here
 
 ##License
