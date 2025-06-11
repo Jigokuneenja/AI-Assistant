@@ -5,7 +5,7 @@ A cross-platform personal assistant built with Java, Python, and Svelte/Vue.js. 
 Tech Stack
 - **Java**: Core logic, local SQLite storage
 - **Python**: NLP (spaCy/OpenAI), voice (TTS/STT), MongoDB memory
-- **Svelte/Vue**: User interface
+- **Svelte**: User interface
 - **SQLite**: Local structured data
 - **MongoDB**: AI memory / chat history
 - **Tauri**: Desktop packaging
