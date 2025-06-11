@@ -20,7 +20,7 @@ cd server
 cd ai
 python main.py
 
-# Frontend (Svelte/Vue)
+# Frontend (Svelte)
 cd client
 npm run dev
 ```
