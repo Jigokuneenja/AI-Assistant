@@ -30,7 +30,7 @@ jobs:
       - name: Build Java Backend
         run: |
           cd server
-          if [ -f ./gradlew ]; then ./gradlew build; else mvn package; fi
+          ./gradlew build
 
       # Step 4: Set up Python environment for AI module
       - name: Set up Python 3.10
