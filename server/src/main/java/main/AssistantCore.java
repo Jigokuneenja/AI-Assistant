@@ -48,4 +48,46 @@ public class AssistantCore {
             System.err.println("Remove task failed: " + e.getMessage());
         }
     }
+    public static void reminder(int taskID, String remindAt) {
+        String sql = "INSERT INTO reminders (task_id, remind_at) VALUES (?, ?)";
+        try (Connection conn = DatabaseManager.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, remindAt);
+
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Reminder added successfully.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to add task: " + e.getMessage());
+        }
+    }
+    public static void listReminders() {
+        String sql = "SELECT id, task_id, remind_at FROM reminders";
+        try (Connection conn = DatabaseManager.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                System.out.printf("ID: %d Task ID:%d remind at:%d%n",
+                    rs.getInt("id"),
+                    rs.getString("task_id"),
+                    rs.getString("remind_at"));
+            }
+        } catch (SQLException e) {
+            System.err.println("List reminders failed: " + e.getMessage());
+        }
+    }
+    public static void removereminder(int id) {
+        String sql = "DELETE FROM reminders WHERE id = ?";
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+            System.out.println("reminder removed.");
+        } catch (SQLException e) {
+            System.err.println("Remove reminder failed: " + e.getMessage());
+        }
+    }
 }

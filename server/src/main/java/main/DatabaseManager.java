@@ -26,15 +26,6 @@ public class DatabaseManager {
             System.err.println("Error initializing database: " + e.getMessage());
         }
     }
-    public static void testDB() {
-        try (Connection conn = connect()) {
-            ResultSet rs = conn.createStatement().executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
-            while (rs.next()) {
-                System.out.println("Table: " + rs.getString("name"));
-            }
-        } catch (Exception e) {
-            System.err.println("DB Test failed: " + e.getMessage());
-        }
-    }
+    
 }
 
