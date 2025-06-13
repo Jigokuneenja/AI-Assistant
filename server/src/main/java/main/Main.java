@@ -1,5 +1,9 @@
 package main;
 
+import java.util.Map;
+
+import org.sqlite.core.DB;
+
 import io.javalin.Javalin;
 
 public class Main {
@@ -25,6 +29,16 @@ public class Main {
         // Sample GET route to test if backend is running
         app.get("/", ctx -> {
             ctx.result("AI Assistant Backend is Running");
+        });
+
+        app.get("/api/tasks", ctx -> {
+            ctx.json(Task.findAll());
+        });
+
+        app.post("/api/tasks", ctx -> {
+            Task newTask = ctx.bodyAsClass(Task.class);
+            newTask.save();
+            ctx.json(newTask);
         });
 
         // Start server

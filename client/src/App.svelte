@@ -1,16 +1,24 @@
 <script>
     import { onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import Sidebar from './lib/components/Sidebar.svelte';
+    import { escape } from 'svelte/internal';
     let tasks = [];
     let reminders = [];
+    let taskId = 0;
+    let remindAt = "";
     let title = "";
     let description = "";
     let dueDate = "";
-    let remindAt = "";
+    let sidebarOpen = false;
 
     onMount(async () => {
         const response = await fetch('http://localhost:8080/');
         const text = await response.text();
         console.log(text); // Should log: AI Assistant Backend is Running
+
+        const taskResponse = await fetch('http://localhost:8080/api/tasks');
+        tasks = await taskResponse.json();
     });
 
     async function addTask() {
@@ -20,7 +28,6 @@
             title,
             description,
             dueDate,
-            remindAt,
             status: "pending"
         };
 
@@ -37,7 +44,6 @@
         title = "";
         description = "";
         dueDate = "";
-        remindAt = "";
     }
 
     function completeTask(id) {
@@ -49,16 +55,39 @@
     function deleteTask(id) {
         tasks = tasks.filter(task => task.id !== id);    
     }
+    
+    const toggleSidebar = () => {
+      sidebarOpen = !sidebarOpen;
+    };
+
+    const closeSidebar = () => {
+      sidebarOpen = false;
+    };
 </script>
 
+{#if sidebarOpen}
+  <div
+    class="overlay"
+    on:click={closeSidebar}
+    on:keypress={closeSidebar}
+    transition:fade={{ duration: 200 }}
+  />
+{/if}
+
 <main class="p-4 max-w-xl mx-auto">
+  <Sidebar open={sidebarOpen} />
+  <header>
+      <!-- This button will open/close the sidebar -->
+      <button on:click={toggleSidebar} class="menu-button">
+        >
+      </button>
+  </header>
   <h1 class="text-2xl font-bold mb-4">📝 Task Manager</h1>
 
   <div class="space-y-2 mb-4">
     <input bind:value={title} class="w-full p-2 border rounded" placeholder="Task title" />
     <input bind:value={description} class="w-full p-2 border rounded" placeholder="Description" />
     <input bind:value={dueDate} class="w-full p-2 border rounded" type="datetime-local" placeholder="Due date" />
-    <input bind:value={remindAt} class="w-full p-2 border rounded" type="datetime-local" placeholder="Remind at" />
     <button on:click={addTask} class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
       Add Task
     </button>
@@ -94,6 +123,42 @@
     margin: 0;
     background: linear-gradient(to right, #69a6e2, #000000);
     font-family: system-ui, sans-serif;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 99; /* Lower than the sidebar's z-index */
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #eeeeee00;
+    margin-bottom: 1rem;
+  }
+
+  .menu-button {
+    position: fixed;
+    top: 1rem;
+    left: -0.5rem;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    background: #f0f0f000;
+    border: 1px solid #cccccc00;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+  }
+  .menu-button:hover {
+    background: #000000;
+    color: #ffffff;
+    transition: all 0.5s;
   }
 
   main {
